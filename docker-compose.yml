@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+      - C:/Users/HP/Downloads/project:/data
+    ports:
+      - 27017:27017
+
+  metabase:
+    image: metabase/metabase:v0.39.4
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+    environment:
+      - "MB_DB_TYPE=mongo"
+      - "MB_DB_DBNAME=bda"
+      - "MB_DB_PORT=27017"
+      - "MB_DB_HOST=mongodb"
+      - "MB_DB_USER=admin"
+      - "MB_DB_PASS=admin"
+    volumes:
+      - metabase_data:/metabase-data
+
+volumes:
+  mongodb_data:
+  metabase_data:

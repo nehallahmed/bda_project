@@ -1,0 +1,309 @@
+Card - State Wise Stats
+[
+  {
+    "$group": {
+      "_id": {
+        "state": "$state"
+      },
+      "sum": {
+        "$sum": "$amt"
+      },
+      "count": {
+        "$sum": 1
+      },
+      "avg": {
+        "$avg": "$amt"
+      },
+      "% of Fraud Vol~sum-where": {
+        "$sum": {
+          "$cond": {
+            "if": {
+              "$eq": [
+                "$is_fraud",
+                1
+              ]
+            },
+            "then": "$amt",
+            "else": 0
+          }
+        }
+      },
+      "% of Fraud Vol~sum": {
+        "$sum": "$amt"
+      }
+    }
+  },
+  {
+    "$addFields": {
+      "% of Fraud Vol": {
+        "$multiply": [
+          {
+            "$cond": [
+              {
+                "$eq": [
+                  "$% of Fraud Vol~sum",
+                  0
+                ]
+              },
+              null,
+              {
+                "$divide": [
+                  "$% of Fraud Vol~sum-where",
+                  "$% of Fraud Vol~sum"
+                ]
+              }
+            ]
+          },
+          100
+        ]
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "state": "$_id.state",
+      "sum": true,
+      "count": true,
+      "avg": true,
+      "% of Fraud Vol": true
+    }
+  }
+]
+
+
+
+Card - Average Ticket Size
+[
+  {
+    "$group": {
+      "_id": null,
+      "avg": {
+        "$avg": "$amt"
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "avg": true
+    }
+  }
+]
+
+
+Card - Avg Ticket Size v/s Age
+[
+  {
+    $addFields: {
+      age: {
+        $floor: {
+          $divide: [
+            { $subtract: [new Date(), { $toDate: "$dob" }] },
+            31536000000
+          ]
+        }
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$age",
+      average_amount: { $avg: "$amt" }
+    }
+  }
+]
+
+
+Card-Category Wise Amount
+[
+  {
+    "$group": {
+      "_id": {
+        "category": "$category"
+      },
+      "sum": {
+        "$sum": "$amt"
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "category": "$_id.category",
+      "sum": true
+    }
+  },
+  {
+    "$sort": {
+      "sum": -1,
+      "category": 1
+    }
+  }
+]
+
+
+Card-Gender Wise Volume
+[
+  {
+    "$group": {
+      "_id": {
+        "gender": "$gender"
+      },
+      "sum": {
+        "$sum": "$amt"
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "gender": "$_id.gender",
+      "sum": true
+    }
+  }
+]
+
+
+Card-Ratio of Fraud TXNs
+[
+  {
+    "$group": {
+      "_id": {
+        "is_fraud": "$is_fraud"
+      },
+      "count": {
+        "$sum": 1
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "is_fraud": "$_id.is_fraud",
+      "count": true
+    }
+  }
+]
+
+
+Card-Ratio of Fraud Volume
+[
+  {
+    "$group": {
+      "_id": {
+        "is_fraud": "$is_fraud"
+      },
+      "sum": {
+        "$sum": "$amt"
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "is_fraud": "$_id.is_fraud",
+      "sum": true
+    }
+  }
+]
+
+
+Card-Total TXNs by Age
+[
+  {
+    $addFields: {
+      age: {
+        $floor: {
+          $divide: [
+            { $subtract: [new Date(), { $toDate: "$dob" }] },
+            31536000000
+          ]
+        }
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$age",
+      count: { $sum: 1 }
+    }
+  }
+]
+
+
+Card-Total Volume
+[
+  {
+    "$group": {
+      "_id": null,
+      "sum": {
+        "$sum": "$amt"
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id": 1
+    }
+  },
+  {
+    "$project": {
+      "_id": false,
+      "sum": true
+    }
+  }
+]
+
+
+Card-Total Volume by Age
+[
+  {
+    $addFields: {
+      age: {
+        $floor: {
+          $divide: [
+            { $subtract: [new Date(), { $toDate: "$dob" }] },
+            31536000000
+          ]
+        }
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$age",
+      volume: { $sum: "$amt" }
+    }
+  }
+]

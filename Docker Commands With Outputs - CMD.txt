@@ -1,0 +1,83 @@
+C:\Users\nehaa>docker run -d --name mongodb_container -p 27017:27017 mongo
+b3abb664d9ef40b26fad640264dc2c50b34a432a50a10c3283b884ffc536ebe2
+
+C:\Users\nehaa>docker run -it --rm --network host -v C:/Users/nehaa/Downloads/BDA_Project:/data mongo mongoimport --host localhost --port 27017 --db test --collection mycollection --type csv --headerline --file /data/data.csv
+2023-06-04T14:02:39.816+0000    connected to: mongodb://localhost:27017/
+2023-06-04T14:02:42.816+0000    [........................] test.mycollection    13.4MB/461MB (2.9%)
+2023-06-04T14:02:45.817+0000    [#.......................] test.mycollection    27.6MB/461MB (6.0%)
+2023-06-04T14:02:48.816+0000    [##......................] test.mycollection    41.6MB/461MB (9.0%)
+2023-06-04T14:02:51.817+0000    [##......................] test.mycollection    55.3MB/461MB (12.0%)
+2023-06-04T14:02:54.816+0000    [###.....................] test.mycollection    69.7MB/461MB (15.1%)
+2023-06-04T14:02:57.816+0000    [####....................] test.mycollection    83.7MB/461MB (18.1%)
+2023-06-04T14:03:00.817+0000    [####....................] test.mycollection    94.2MB/461MB (20.4%)
+2023-06-04T14:03:03.817+0000    [#####...................] test.mycollection    106MB/461MB (22.9%)
+2023-06-04T14:03:06.816+0000    [######..................] test.mycollection    117MB/461MB (25.4%)
+2023-06-04T14:03:09.816+0000    [######..................] test.mycollection    128MB/461MB (27.8%)
+2023-06-04T14:03:12.816+0000    [#######.................] test.mycollection    142MB/461MB (30.7%)
+2023-06-04T14:03:15.816+0000    [#######.................] test.mycollection    153MB/461MB (33.1%)
+2023-06-04T14:03:18.816+0000    [########................] test.mycollection    167MB/461MB (36.2%)
+2023-06-04T14:03:21.816+0000    [#########...............] test.mycollection    179MB/461MB (38.8%)
+2023-06-04T14:03:24.816+0000    [##########..............] test.mycollection    193MB/461MB (41.8%)
+2023-06-04T14:03:27.817+0000    [##########..............] test.mycollection    206MB/461MB (44.7%)
+2023-06-04T14:03:30.816+0000    [###########.............] test.mycollection    220MB/461MB (47.6%)
+2023-06-04T14:03:33.817+0000    [############............] test.mycollection    233MB/461MB (50.5%)
+2023-06-04T14:03:36.816+0000    [############............] test.mycollection    247MB/461MB (53.5%)
+2023-06-04T14:03:39.817+0000    [#############...........] test.mycollection    261MB/461MB (56.6%)
+2023-06-04T14:03:42.816+0000    [##############..........] test.mycollection    275MB/461MB (59.7%)
+2023-06-04T14:03:45.816+0000    [###############.........] test.mycollection    289MB/461MB (62.5%)
+2023-06-04T14:03:48.816+0000    [###############.........] test.mycollection    299MB/461MB (64.9%)
+2023-06-04T14:03:51.816+0000    [################........] test.mycollection    313MB/461MB (67.8%)
+2023-06-04T14:03:54.816+0000    [#################.......] test.mycollection    327MB/461MB (70.9%)
+2023-06-04T14:03:57.816+0000    [#################.......] test.mycollection    342MB/461MB (74.1%)
+2023-06-04T14:04:00.816+0000    [##################......] test.mycollection    356MB/461MB (77.2%)
+2023-06-04T14:04:03.816+0000    [###################.....] test.mycollection    370MB/461MB (80.3%)
+2023-06-04T14:04:06.816+0000    [####################....] test.mycollection    385MB/461MB (83.4%)
+2023-06-04T14:04:09.816+0000    [####################....] test.mycollection    399MB/461MB (86.5%)
+2023-06-04T14:04:12.816+0000    [#####################...] test.mycollection    413MB/461MB (89.5%)
+2023-06-04T14:04:15.816+0000    [######################..] test.mycollection    428MB/461MB (92.7%)
+2023-06-04T14:04:18.816+0000    [######################..] test.mycollection    439MB/461MB (95.1%)
+2023-06-04T14:04:21.816+0000    [#######################.] test.mycollection    453MB/461MB (98.2%)
+2023-06-04T14:04:23.606+0000    [########################] test.mycollection    461MB/461MB (100.0%)
+2023-06-04T14:04:23.607+0000    1852394 document(s) imported successfully. 0 document(s) failed to import.
+
+C:\Users\nehaa>docker run -d -p 3000:3000 --name metabase --link mongodb metabase/metabase
+8798c78918952c56307a5006b6b6a2f0c91eb8e4015b620917007f6b05246e3c
+
+C:\Users\nehaa>mkdir my-project
+
+C:\Users\nehaa>cd my-project
+
+C:\Users\nehaa\my-project>docker build -t my-project-image .
+[+] Building 0.3s (5/5) FINISHED
+ => [internal] load .dockerignore                                                                                                                                  0.0s
+ => => transferring context: 2B                                                                                                                                    0.0s
+ => [internal] load build definition from Dockerfile                                                                                                               0.1s
+ => => transferring dockerfile: 373B                                                                                                                               0.0s
+ => [internal] load metadata for docker.io/metabase/metabase:latest                                                                                                0.0s
+ => [stage-1 1/1] FROM docker.io/metabase/metabase:latest                                                                                                          0.2s
+ => exporting to image                                                                                                                                             0.0s
+ => => exporting layers                                                                                                                                            0.0s
+ => => writing image sha256:629013587d66cc615ed80412212590d4e473fb67c6aa6bc2fae7886a4097cbc6                                                                       0.0s
+ => => naming to docker.io/library/my-project-image
+
+C:\Users\nehaa\my-project>docker images
+REPOSITORY                       TAG                       IMAGE ID       CREATED         SIZE
+apache/superset                  latest                    28437f75265f   4 days ago      1.07GB
+ajeje93/grafana-mongodb          latest                    45474355b5da   6 days ago      1.02GB
+metabase/metabase                latest                    537adb7b89bb   2 weeks ago     461MB
+my-project-image                 latest                    629013587d66   2 weeks ago     461MB
+grafana/grafana                  latest                    6c5313ea00cc   4 weeks ago     309MB
+apache/hadoop                    3                         03ceea563502   2 months ago    1.64GB
+postgres                         latest                    f462f91720c0   4 months ago    379MB
+mongo                            latest                    a440572ac3c1   4 months ago    639MB
+docker/getting-started           latest                    3e4394f6b72f   5 months ago    47MB
+alpine/git                       latest                    22d84a66cda4   6 months ago    43.6MB
+bde2020/spark-worker             3.3.0-hadoop3.3           50eb31df8fa4   11 months ago   544MB
+bde2020/spark-master             3.3.0-hadoop3.3           925cc6e56b20   11 months ago   544MB
+bde2020/hadoop-nodemanager       2.0.0-hadoop3.2.1-java8   4e47dabd148f   3 years ago     1.37GB
+bde2020/hadoop-resourcemanager   2.0.0-hadoop3.2.1-java8   3deba4a1885f   3 years ago     1.37GB
+bde2020/hadoop-namenode          2.0.0-hadoop3.2.1-java8   839ec11d95f8   3 years ago     1.37GB
+bde2020/hadoop-historyserver     2.0.0-hadoop3.2.1-java8   173c52d1f624   3 years ago     1.37GB
+bde2020/hadoop-datanode          2.0.0-hadoop3.2.1-java8   df288ee0a7f9   3 years ago     1.37GB
+redash/redash                    latest                    1b48a51810b5   3 years ago     1.31GB
+prakhar1989/static-site          latest                    f01030e1dcf3   7 years ago     134MB
